@@ -1,41 +1,44 @@
-import './Card.css';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-let number = 0;
-
-function Card() {
+function Card({ objectId }) {
     const [photo, setPhoto] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&isHighlight=true&isOnView=true&q=Paintings')
+        // Get objectId from the CardArray component
+        fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectId}`)
             .then(response => response.json())
             .then(data => {
-                let randomIds = data.objectIDs;
-                number = randomIds[Math.floor(Math.random()*randomIds.length)];
-                fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects/' + number)
-                .then(response => response.json())
-                .then(data => {
-                    setPhoto(data.primaryImage);
-
-                    setTitle(data.title);
-
-                    if(data.artistDisplayName !== "") {
-                        setDescription(data.artistDisplayName + ', ' + data.accessionYear);
-                    } else {
-                        setDescription('Unknown, ' + data.accessionYear);
-                    }
-                })
+                setPhoto(data.primaryImageSmall);
+                setTitle(data.title);
+                
+                // Check for the existence of the artist's name
+                if (data.artistDisplayName !== "") {
+                    setDescription(`${data.artistDisplayName}, ${data.objectDate}`);
+                } else {
+                    // Display "Unknown" if the data does not exist
+                    setDescription(`Unknown, ${data.objectDate}`);
+                }
             })
-          .catch((error) => console.log(error));
-      }, []);
+    }, [objectId]);
 
-    return(
-        <div className="card">
-            <div><img src={photo} alt="there is from api" className="img"></img></div>
+    const handleClick = () => {
+        navigate(`/category?id=${objectId}`);
+    };
+
+    // Slice text if it is too long
+    const truncateText = (text, n) => {
+        return text.length > n ? text.slice(0, n) + '…' : text;
+    };
+
+    return (
+        <div className="cardBox" onClick={handleClick}>
+            <div><img src={photo} alt={title} className="imgBox"></img></div>
             <div className="infoBox">
-                <div className="title">{title}</div>
+                <div className="title">{truncateText(title, 50)}</div>
                 <div className="description">{description}</div>
             </div>
         </div>

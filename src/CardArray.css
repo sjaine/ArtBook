@@ -1,9 +1,0 @@
-.card-list {
-    display: flex;
-    overflow-x: scroll;
-    padding: 3rem;
-}
-
-.card-list::-webkit-scrollbar {
-    display: none;
-}
