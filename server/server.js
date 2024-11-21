@@ -14,14 +14,14 @@ import cors from "cors";
 dotenv.config({ path: "./server/.env" }); 
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 // Parse JSON bodies and enable CORS for cross-origin requests
 app.use(express.json());
 
 // connect with React
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:8000",
     credentials: true,
 }));
 
