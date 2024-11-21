@@ -11,7 +11,7 @@ function SignUpForm() {
   
   const submitForm = async () => {
     try {
-      const response = await fetch('https://artbook-x9c3.onrender.com/api/user', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

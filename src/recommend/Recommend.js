@@ -20,7 +20,7 @@ function Recommend({ userId }) {
 
     const fetchUserInfo = async (userId) => {
         try {
-            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}`);
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}`);
     
             if (!response.ok) {
                 throw new Error('Failed to load favorite artworks');
@@ -38,7 +38,7 @@ function Recommend({ userId }) {
     // Fetch favorite artworks by emoji
     const fetchFavArtworksByEmoji = async (emoji) => {
         try {
-            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/emojis/${emoji}/fav-artworks`);
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/emojis/${emoji}/fav-artworks`);
             if (!response.ok) {
                 throw new Error('Failed to fetch favorite artworks');
             }
@@ -53,7 +53,7 @@ function Recommend({ userId }) {
     // Get the most saved emoji
     const getMostSavedEmoji = async () => {
         try {
-            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/aggregate/most-saved-emojis`);
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/aggregate/most-saved-emojis`);
 
             if(!response.ok) {
                 throw new Error('Failed to fetch favorite artworks');
@@ -71,7 +71,7 @@ function Recommend({ userId }) {
     // Fetch favorite artworks by most saved emoji
     const fetchFavArtworksByMostSavedEmoji = async (mostEmoji) => {
         try {
-            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/emojis/${mostEmoji}/fav-artworks`);
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/emojis/${mostEmoji}/fav-artworks`);
             if (!response.ok) {
                 throw new Error('Failed to fetch favorite artworks');
             }

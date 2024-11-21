@@ -12,7 +12,7 @@ function SignInPage3({ formData, submitForm, setUserId }) {
         console.log("submitGoNext result: " + event);
         
         try {
-            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/get-id`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/get-id`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nickname: formData.nickname }),

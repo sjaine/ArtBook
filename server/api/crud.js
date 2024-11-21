@@ -54,7 +54,7 @@ api.get('/users/:id', mongoReady, async (req, res) => {
   } 
 }) 
 
-// READ SINGLE ITEM (ENDPOINT)  
+// READ FAV ARTWORKS LIST (ENDPOINT)  
 api.get('/users/:id/fav-artworks', mongoReady, async (req, res) => {  
   try {
     const { id } = req.params;
@@ -79,28 +79,7 @@ api.get('/users/:id/fav-artworks', mongoReady, async (req, res) => {
   }
 }) 
 
-api.get('/users/emojis/:emoji/fav-artworks', mongoReady, async (req, res) => {  
-  try {
-      const { emoji } = req.params;
-
-      // Find all users matching the given emoji
-      const users = await User.find({ emojis: emoji }).select('fav_artworks');
-
-      if (!users || users.length === 0) {
-          return res.status(404).send({ message: 'No users found for the given emoji' });
-      }
-
-      // Combine all fav_artworks from the matched users
-      const allFavArtworks = users.flatMap(user => user.fav_artworks);
-
-      // Send the combined favorite artworks list
-      res.send(allFavArtworks);
-  } catch (err) {
-      console.error('Error fetching favorite artworks by emoji:', err);
-      res.status(500).send({ message: 'Failed to fetch favorite artworks', error: err.message });
-  }
-});
-
+// READ USERS EMOJIS's FAV ARTWORKS LIST
 api.get('/users/emojis/:emoji/fav-artworks', mongoReady, async (req, res) => {  
   try {
       const { emoji } = req.params;
@@ -163,20 +142,7 @@ api.post('/users/get-id', async (req, res) => {
   }
 });
 
-// //UPDATE ITEM (ENDPOINT)
-// api.put('/item/:id', mongoReady, async (req, res) => {    
-//   try{
-//     const filter = {_id: req.params.id}
-//     const update = req.body
-//     const options = {returnDocument :'after'}   // default is 'before'   
-//     const item = await Item.findOneAndReplace(filter, update, options) 
-//     res.send(item)
-//   }
-//   catch(err){
-//     res.status(500).send(err)
-//   } 
-// }) 
-
+// UPDATA (EDIT) USERS' FAV ARTWORKS
 api.patch('/users/:id/fav-artworks', mongoReady, async (req, res) => {
   try {
     const { id } = req.params;
@@ -209,6 +175,7 @@ api.patch('/users/:id/fav-artworks', mongoReady, async (req, res) => {
 }
 })
 
+// DELETE FAVORITE
 api.delete('/users/:id/fav-artworks/:objectId', mongoReady, async (req, res) => {
   try {
       const { id, objectId } = req.params;
@@ -267,7 +234,7 @@ api.get('/check-nickname', async (req, res) => {
 });
 
 
-// DELETE ITEM (ENDPOINT)
+// DELETE USER (ENDPOINT)
 api.delete('/users/:id', mongoReady, async (req, res) => {
   try{
     const filter = {_id:req.params.id} 

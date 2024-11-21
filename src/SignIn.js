@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function SignIn({ setUserId }) {
+    
     const navigate = useNavigate();
 
     const [nickname, setNickname] = useState("");
@@ -15,7 +16,7 @@ function SignIn({ setUserId }) {
         }
 
         try {
-            const response = await fetch('https://artbook-x9c3.onrender.com/api/users/get-id', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/get-id`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

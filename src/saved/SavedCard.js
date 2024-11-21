@@ -9,7 +9,7 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
 
     const fetchFavArtworks = async (userId) => {
         try {
-            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks`);
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks`);
     
             if (!response.ok) {
                 throw new Error('Failed to load favorite artworks');
@@ -68,7 +68,7 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
     }
     const removeArtwork = async () => {
         try {
-            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks/${objectId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks/${objectId}`, {
                 method: 'DELETE', credentials: 'include',
             });
 
@@ -86,7 +86,7 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
 
     const saveArtwork = async () => {
         try {
-            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
