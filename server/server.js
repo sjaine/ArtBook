@@ -11,10 +11,10 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 
-dotenv.config({ path: "./server/.env" }); 
+dotenv.config(); 
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 
 // Parse JSON bodies and enable CORS for cross-origin requests
 app.use(express.json());
@@ -22,7 +22,7 @@ app.use(express.json());
 // connect with React
 app.use(cors({
     origin: "http://localhost:3000", 
-    credentials: true,
+    credentials: true
   }));
 
 // MongoDB connection setup
