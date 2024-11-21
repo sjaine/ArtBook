@@ -69,7 +69,7 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
     const removeArtwork = async () => {
         try {
             const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks/${objectId}`, {
-                method: 'DELETE',
+                method: 'DELETE', credentials: 'include',
             });
 
             if (!response.ok) {
@@ -96,6 +96,7 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
                     object_artistName: objectArtistName || 'Unknown',
                     object_year: objectYear || 'Unknown',
                 }),
+                credentials: 'include',
             });
     
             if (!response.ok) {

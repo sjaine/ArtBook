@@ -21,6 +21,7 @@ function SignIn({ setUserId }) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ nickname }),
+                credentials: 'include',
             });
 
             if (response.ok) {

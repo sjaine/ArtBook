@@ -28,7 +28,7 @@ function Saved({ userId }) {
 
     const deleteUser = async (userId) => {
           try {
-            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}`, {method: "DELETE"}); // Pass the endpoint string to fetch
+            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}`, {method: "DELETE", credentials: 'include',}); // Pass the endpoint string to fetch
             const result = await response.json();
             console.log(result, "Deleted!");
         } catch (error) {

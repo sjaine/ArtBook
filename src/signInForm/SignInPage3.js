@@ -16,6 +16,7 @@ function SignInPage3({ formData, submitForm, setUserId }) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nickname: formData.nickname }),
+            credentials: 'include',
             });
 
             const data = await response.json();

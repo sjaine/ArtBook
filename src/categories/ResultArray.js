@@ -75,7 +75,7 @@ function ResultArray({ value, navId, userId }) {
     const removeArtwork = async (artwork) => {
         try {
             const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks/${artwork}`, {
-                method: 'DELETE',
+                method: 'DELETE', credentials: 'include',
             });
 
             if (!response.ok) {
@@ -103,6 +103,7 @@ function ResultArray({ value, navId, userId }) {
                     object_artistName: artwork.artistDisplayName || 'Unknown',
                     object_year: artwork.objectDate || 'Unknown',
                 }),
+                credentials: 'include',
             });
     
             if (!response.ok) {
