@@ -21,7 +21,7 @@ app.use(express.json());
 
 // connect with React
 app.use(cors({
-    origin: "http://localhost:8000",
+    origin: ["http://localhost:8000", "https://artbookproject.netlify.app/"],
     credentials: true,
 }));
 
