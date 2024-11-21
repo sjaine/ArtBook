@@ -21,7 +21,7 @@ function Menu({ userId, onMenuToggle }) {
             }
         };
         
-        if (userId) {
+        if (userId) { 
             getUsers();
         }
     }, [userId]);

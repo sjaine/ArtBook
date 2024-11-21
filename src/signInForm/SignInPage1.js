@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 function SignInPage1({ formData, setFormData, nextStep }) {
     const [emoji, setEmoji] = useState("🙂");
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         setEmoji("🙂"); 

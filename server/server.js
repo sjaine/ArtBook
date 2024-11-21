@@ -21,9 +21,10 @@ app.use(express.json());
 
 // connect with React
 app.use(cors({
-    origin: "http://localhost:3000", 
-    credentials: true
-  }));
+    origin: "http://localhost:3000",
+    credentials: true,
+}));
+
 
 // MongoDB connection setup
 mongoose.connect(process.env.MONGODB)
@@ -34,7 +35,7 @@ mongoose.connect(process.env.MONGODB)
     console.error("MongoDB connection error:", error);
 });
 
-import { crudEndpoints } from './api/crud.js'
+import { crudEndpoints } from './api/crud.js' 
 app.use('/api', crudEndpoints)
 
 // Start the server
