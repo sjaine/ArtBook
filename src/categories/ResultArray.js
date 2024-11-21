@@ -21,7 +21,7 @@ function ResultArray({ value, navId, userId }) {
 
     const fetchFavArtworks = async (userId) => {
         try {
-            const response = await fetch(`/api/users/${userId}/fav-artworks`);
+            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks`);
     
             if (!response.ok) {
                 throw new Error('Failed to load favorite artworks');
@@ -74,7 +74,7 @@ function ResultArray({ value, navId, userId }) {
     }
     const removeArtwork = async (artwork) => {
         try {
-            const response = await fetch(`/api/users/${userId}/fav-artworks/${artwork}`, {
+            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks/${artwork}`, {
                 method: 'DELETE',
             });
 
@@ -93,7 +93,7 @@ function ResultArray({ value, navId, userId }) {
     const saveArtwork = async (artwork) => {
         console.log(artwork);
         try {
-            const response = await fetch(`/api/users/${userId}/fav-artworks`, {
+            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

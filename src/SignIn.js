@@ -15,7 +15,7 @@ function SignIn({ setUserId }) {
         }
 
         try {
-            const response = await fetch('/api/users/get-id', {
+            const response = await fetch('https://artbook-x9c3.onrender.com/api/users/get-id', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

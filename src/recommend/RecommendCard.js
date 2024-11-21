@@ -9,7 +9,7 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
 
     const fetchFavArtworks = async (userId) => {
         try {
-            const response = await fetch(`/api/users/${userId}/fav-artworks`);
+            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks`);
     
             if (!response.ok) {
                 throw new Error('Failed to load favorite artworks');
@@ -68,7 +68,7 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
     }
     const removeArtwork = async () => {
         try {
-            const response = await fetch(`/api/users/${userId}/fav-artworks/${objectId}`, {
+            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks/${objectId}`, {
                 method: 'DELETE',
             });
 
@@ -86,7 +86,7 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
 
     const saveArtwork = async () => {
         try {
-            const response = await fetch(`/api/users/${userId}/fav-artworks`, {
+            const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}/fav-artworks`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

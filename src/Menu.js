@@ -12,7 +12,7 @@ function Menu({ userId, onMenuToggle }) {
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const response = await fetch(`/api/users/${userId}`);
+                const response = await fetch(`https://artbook-x9c3.onrender.com/api/users/${userId}`);
                 const user = await response.json();
                 setUserPhoto(user.emojis);
                 setUserName(user.nickname);

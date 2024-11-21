@@ -25,7 +25,7 @@ function SignInPage2({ formData, setFormData, nextStep, prevStep }) {
         }
     
         try {
-            const response = await fetch(`/api/check-nickname?nickname=${nickname}`);
+            const response = await fetch(`https://artbook-x9c3.onrender.com/api/check-nickname?nickname=${nickname}`);
             const { isAvailable } = await response.json();
     
             if (!isAvailable) {
