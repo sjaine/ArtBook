@@ -28,7 +28,7 @@ api.post('/user', async (req, res) => {
 })
 
 
-// READ ITEMS (ENDPOINT)
+// READ USERS (ENDPOINT)
 api.get('/users', async (req, res) => {  
   try{
     // a empty filter means "find everything"
