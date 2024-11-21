@@ -2,7 +2,7 @@ import ResultArray from './ResultArray';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-function Result() {
+function Result({ userId }) {
     // https://reactrouter.com/en/main/hooks/use-search-params
     // https://developer.mozilla.org/en-US/docs/Web/API/Location/search
     // Utilize useSearchParams from React Router DOM as the search parameter for the API
@@ -35,7 +35,7 @@ function Result() {
         }, [idParam, categoryParam]);
         
     return (
-        <ResultArray value={artworkData} navName="artStyle" navId={navId} />
+        <ResultArray value={artworkData} navName="artStyle" navId={navId} userId={userId} />
     );
 }
 

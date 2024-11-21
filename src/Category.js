@@ -1,9 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Nav from './Nav.js';
+import Menu from './Menu.js';
 
 
-function Category() {
+function Category({ userId }) {
     const [searchParams] = useSearchParams();
     const idParam = searchParams.get('id');
     const [classification, setClassification] = useState('');
@@ -115,15 +117,17 @@ function Category() {
         let link = e.target.value;
         navigate(`/${link}?id=${idParam}&category=${period}`);
     };
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
         
     return (
         <div>
-            <nav>
-                {/* https://stackoverflow.com/questions/29552601/how-to-set-the-defaultroute-to-another-route-in-react-router */}
-                <div><img src="img/logo.svg" alt="ArtBook logo" onClick={() => navigate("/")} /></div>
-                <div className="header">How would you like to explore your results?</div>
-                <div><img src="img/menu.svg" alt="hamburger menu" /></div>
-            </nav>
+            <Nav onMenuToggle={toggleMenu} />
+            {isMenuOpen && <Menu userId={userId} onMenuToggle={toggleMenu}  />}
             <div className="wrapper">
                 {/* https://njirumwai.hashnode.dev/react-router-6-go-back-how-to-go-back-using-react-router-v6 */}
                 <div className="previous" onClick={() => navigate(-1)}>
@@ -167,7 +171,7 @@ function Category() {
             </div>
 
             {/* https://www.shecodes.io/athena/11556-react-how-to-show-a-loading-message-when-fetching-data */}
-            {isLoading ? <div class="loading">
+            {isLoading ? <div className="loading">
                 <img src="img/artbook.svg" alt="artbook logo" />
             </div> : null}
         </div>

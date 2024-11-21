@@ -1,15 +1,124 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Nav from '../Nav.js';
+import Menu from '../Menu.js';
 
-function ResultArray({ value, navName, navId }) {
+function ResultArray({ value, navId, userId }) {
     const [objectsData, setObjectsData] = useState([]);
-    const [name, setName] = useState("");
     const [selectedObject, setSelectedObject] = useState(null); 
     const [isCardVisible, setIsCardVisible] = useState(false); 
     const [isLoading, setIsLoading] = useState(true);
+    const [favoriteArtworks, setFavoriteArtworks] = useState([]);
+    const [isFavorite, setIsFavorite] = useState(false);
 
     const navigate = useNavigate();
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    const fetchFavArtworks = async (userId) => {
+        try {
+            const response = await fetch(`/api/users/${userId}/fav-artworks`);
+    
+            if (!response.ok) {
+                throw new Error('Failed to load favorite artworks');
+            }
+    
+            const favArtworks = await response.json();
+            console.log('Favorite Artworks:', favArtworks);
+
+            // Update your state or display the data
+            setFavoriteArtworks(favArtworks);
+        } catch (error) {
+            console.error('Error fetching favorite artworks:', error);
+        }
+    };
+
+    // fetch fav artworks
+    // Call this function in a useEffect or on a button click
+    useEffect(() => {
+        if (userId) {
+            fetchFavArtworks(userId);
+        }
+    }, [userId]);
+
+
+    const checkIsFavorite = (id) => {
+        console.log("favoriteArtworks:", favoriteArtworks);
+        console.log("아이디", id);
+
+        const isFound = favoriteArtworks.some((item) => item.object_id === String(id));
+    
+        if (isFound) {
+            console.log(`ID ${id}가 배열에 존재합니다.`);
+            setIsFavorite(true);
+        } else {
+            console.log(`ID ${id}가 배열에 없습니다.`);
+            setIsFavorite(false);
+        }
+    }
+
+    useEffect(() => {
+        console.log(`isFavorite updated: ${isFavorite}`);
+    }, [isFavorite]);
+
+    const toggleFavoriteArtwork = async (artwork) => {
+        if(isFavorite) {
+            removeArtwork(artwork.objectID);
+        } else {
+            saveArtwork(artwork);
+        }
+    }
+    const removeArtwork = async (artwork) => {
+        try {
+            const response = await fetch(`/api/users/${userId}/fav-artworks/${artwork}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to remove artwork');
+            } 
+            
+            console.log("Deleted Successfully");
+            setIsFavorite(false);
+            fetchFavArtworks(userId);
+        } catch (error) {
+            console.error('Error removing artwork:', error);
+        }
+    };
+
+    const saveArtwork = async (artwork) => {
+        console.log(artwork);
+        try {
+            const response = await fetch(`/api/users/${userId}/fav-artworks`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    object_id: artwork.objectID,
+                    object_name: artwork.title,
+                    object_url: artwork.primaryImageSmall,
+                    object_artistName: artwork.artistDisplayName || 'Unknown',
+                    object_year: artwork.objectDate || 'Unknown',
+                }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to save artwork');
+            }
+    
+            const updatedUser = await response.json();
+            console.log('Artwork saved successfully:', updatedUser);
+            setIsFavorite(true);
+            fetchFavArtworks(userId);
+        } catch (error) {
+            console.error('Error saving artwork:', error);
+        }
+    };
+
+    // loading
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsLoading(false);
@@ -18,19 +127,7 @@ function ResultArray({ value, navName, navId }) {
         return () => clearTimeout(timer);
       }, []);
 
-    // useEffect to change the nav bar depending on the category
-    useEffect(() => {
-        if (navName === "artStyle") {
-            setName("ART-STYLE");
-        } else if (navName === "department") {
-            setName("DEPARTMENT");
-        } else if (navName === "medium") {
-            setName("MEDIUM");
-        } else if (navName === "period") {
-            setName("PERIOD");
-        }
-    }, [navName]);
-
+    // fetch
     useEffect(() => {
         if (value && Array.isArray(value) && navId) {
             let objects = value.slice(0, 10); 
@@ -76,6 +173,8 @@ function ResultArray({ value, navName, navId }) {
     // https://bender.sheridanc.on.ca/system-design/pokemon <- Thank you Harold!
     // Show a popover when the user clicks each table
     const popupCardInfo = async (url) => {
+        checkIsFavorite(url);
+
         const data = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${url}`)
         const selectedObject = await data.json()
     
@@ -95,18 +194,23 @@ function ResultArray({ value, navName, navId }) {
 
     return (
         <div>
-            <nav>
-                {/* https://stackoverflow.com/questions/29552601/how-to-set-the-defaultroute-to-another-route-in-react-router */}
-                <div><img src="img/logo.svg" alt="ArtBook logo" onClick={() => navigate("/")} /></div>
-                <div className="header">{name}</div>
-                <div><img src="img/menu.svg" alt="hamburger menu" /></div>
-            </nav>
+            <Nav onMenuToggle={toggleMenu} />
+            {isMenuOpen && <Menu userId={userId} onMenuToggle={toggleMenu}  />}
             {isCardVisible && <div className="backgroundOverlay"></div>}
             {/* https://chatgpt.com/share/67008d05-e94c-8011-be21-8707500f3977 */}
             {/* stopPropagation: Block the effect of the closeCardOnBackgroundClick function */}
             <div className={`selectedCard ${isCardVisible ? '' : 'none'}`} onClick={(e) => e.stopPropagation()}>
             {selectedObject && (
                 <div className="selectedCardBox">
+                    <img 
+                        src={isFavorite ? '/img/heart-filled.svg' : '/img/heart.svg'}
+                        alt="button" 
+                        className="fav_button" 
+                        onClick={(e) => {
+                            e.stopPropagation(); // Prevent triggering the popover
+                            toggleFavoriteArtwork(selectedObject); // Call the saveArtwork function
+                        }} 
+                    />
                     {/* https://chatgpt.com/share/67008d05-e94c-8011-be21-8707500f3977 */}
                     <div onClick={() => {setIsCardVisible(false); setSelectedObject(null);}}>
                         <img src="img/close.svg" alt="close button" className="closeButton" />
@@ -147,7 +251,7 @@ function ResultArray({ value, navName, navId }) {
                         </div>
                         <a href="https://maps.metmuseum.org/?lang=en-GB#17/40.779448/-73.963517/-61/" className="cardButton">
                             <div>
-                                On view at Living Map in  <strong>Gallery {selectedObject.GalleryNumber}</strong>
+                                {favoriteArtworks.length} On view at Living Map in  <strong>Gallery {selectedObject.GalleryNumber}</strong>
                             </div>
                             <img src="img/map.svg" alt="map icon" className="cardIcon" />
                         </a>
@@ -190,7 +294,7 @@ function ResultArray({ value, navName, navId }) {
 
             {/* https://www.shecodes.io/athena/11556-react-how-to-show-a-loading-message-when-fetching-data */}
             {isLoading ? 
-            <div class="loading">
+            <div className="loading">
                 <img src="img/artbook.svg" alt="artbook logo" />
             </div> : null }
 
