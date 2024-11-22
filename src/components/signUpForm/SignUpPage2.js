@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function SignInPage2({ formData, setFormData, nextStep, prevStep }) {
+function SignUpPage2({ formData, setFormData, nextStep, prevStep }) {
     const navigate = useNavigate();
     const [nicknameError, setNicknameError] = useState("");
     const [isCheckingNickname, setIsCheckingNickname] = useState(false);
     const [hasChecked, setHasChecked] = useState(false);
     const [isInputChanged, setIsInputChanged] = useState(false);
 
+    // https://chatgpt.com/share/673ff5d5-fad8-8011-87e5-5bb8b0f32fbc 
     const handleNicknameChange = async (e) => {
         const value = e.target.value;
         setFormData({ ...formData, nickname: e.target.value });
@@ -18,6 +19,7 @@ function SignInPage2({ formData, setFormData, nextStep, prevStep }) {
         if (!isInputChanged) setIsInputChanged(true);
     };
 
+    // Validate does nickname is already exisitng 
     const validateNickname = async (nickname) => {
         if (!nickname.trim()) {
             setNicknameError("Nickname is required.");
@@ -109,4 +111,4 @@ function SignInPage2({ formData, setFormData, nextStep, prevStep }) {
   );
 }
 
-export default SignInPage2;
+export default SignUpPage2;

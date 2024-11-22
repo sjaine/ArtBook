@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import Nav from '../Nav.js';
-import Menu from '../Menu.js';
+import Nav from '../components/Nav.js';
+import Menu from '../components/Menu.js';
 import { useNavigate } from 'react-router-dom';
 
 function Saved({ userId }) {
@@ -18,14 +18,18 @@ function Saved({ userId }) {
 
     const navigate = useNavigate();
 
+    // on and off Menu.js
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    // on and off Delete Box
     const toggleDelete = () => {
         setIsOpenDelete(!isOpenDelete);
     }
 
+    // Delete User
+    // https://chatgpt.com/share/673ff604-105c-8011-8bb3-63176e29b624
     const deleteUser = async (userId) => {
           try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}`, {method: "DELETE", credentials: 'include',}); // Pass the endpoint string to fetch
@@ -36,6 +40,7 @@ function Saved({ userId }) {
         }
       };
 
+    // If user delete their data, confirm that deleted successfully then go back to first page
     const deletedUser = async (userId) => {
         deleteUser(userId);
         setAlert("👋");
@@ -48,6 +53,7 @@ function Saved({ userId }) {
         }, 2000);
     };
 
+    // User profile
     useEffect(() => {
         const getUsers = async () => {
             try {

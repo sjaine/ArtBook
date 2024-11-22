@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Nav from './Nav.js';
-import Menu from './Menu.js';
+import Nav from '../components/Nav.js';
+import Menu from '../components/Menu.js';
 
 
 function Category({ userId }) {
@@ -21,6 +21,7 @@ function Category({ userId }) {
     const [periodPhoto, setPeriodPhoto] = useState('');
     
     const [isLoading, setIsLoading] = useState(true);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -118,8 +119,7 @@ function Category({ userId }) {
         navigate(`/${link}?id=${idParam}&category=${period}`);
     };
 
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    // on and off Menu.js
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };

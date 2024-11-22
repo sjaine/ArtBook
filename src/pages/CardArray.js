@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import Card from './Card';
-import Nav from './Nav';
-import Menu from './Menu';
+import Card from '../components/Card';
+import Nav from '../components/Nav';
+import Menu from '../components/Menu';
 // import { useNavigate } from 'react-router-dom';
 
 function CardArray({ userId }) {
     // const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    // on and off Menu.js
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function SignInPage3({ formData, submitForm, setUserId }) {
+function First() {
     const navigate = useNavigate();
 
     return (
@@ -26,4 +26,4 @@ function SignInPage3({ formData, submitForm, setUserId }) {
       );
 }
 
-export default SignInPage3;
+export default First;

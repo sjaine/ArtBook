@@ -9,6 +9,8 @@ function SignIn({ setUserId }) {
     const [nicknameError, setNicknameError] = useState("");
     const [hasChecked, setHasChecked] = useState(false);
 
+    // Validate does it really existing
+    // https://chatgpt.com/share/673ff5d5-fad8-8011-87e5-5bb8b0f32fbc
     const handleSignIn = async () => {
         if (!nickname.trim()) {
             setNicknameError("Nickname is required.");

@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function SignInPage3({ formData, submitForm, setUserId }) {
+function SignUpPage3({ formData, submitForm, setUserId }) {
     const navigate = useNavigate();
 
     // https://stackoverflow.com/questions/16025138/call-two-functions-from-same-onclick
+    // https://chatgpt.com/share/673ff6b6-9230-8011-93b9-8422125b2a8b
     const submitGoNext = async (event) => {
         event.preventDefault();
         await submitForm(); 
@@ -67,4 +68,4 @@ function SignInPage3({ formData, submitForm, setUserId }) {
       );
 }
 
-export default SignInPage3;
+export default SignUpPage3;

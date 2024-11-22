@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import SignInPage1 from './SignInPage1';
-import SignInPage2 from './SignInPage2';
-import SignInPage3 from './SignInPage3';
+import SignUpPage1 from './SignUpPage1';
+import SignUpPage2 from './SignUpPage2';
+import SignUpPage3 from './SignUpPage3';
+
+// https://chatgpt.com/share/673ff712-21d4-8011-bafa-89186631c64a
+// https://chatgpt.com/share/6723df3e-f67c-8011-a67f-69281ab33bea
 
 function SignUpForm({ setUserId }) {
   const [formData, setFormData] = useState({ emojis: '', nickname: '' });
@@ -10,6 +13,7 @@ function SignUpForm({ setUserId }) {
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
   
+  // Create new user data
   const submitForm = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user`, {
@@ -29,13 +33,13 @@ function SignUpForm({ setUserId }) {
   return (
     <div>
       {step === 1 && (
-        <SignInPage1 formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />
+        <SignUpPage1 formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />
       )}
       {step === 2 && (
-        <SignInPage2 formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />
+        <SignUpPage2 formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />
       )}
       {step === 3 && (
-        <SignInPage3 formData={formData} submitForm={submitForm} setUserId={setUserId} prevStep={prevStep} />
+        <SignUpPage3 formData={formData} submitForm={submitForm} setUserId={setUserId} prevStep={prevStep} />
       )}
     </div>
   );

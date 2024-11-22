@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 
-function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, objectYear }) {
+function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistName, objectYear }) {
     const [photo, setPhoto] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [favoriteArtworks, setFavoriteArtworks] = useState([]);
     const [isFavorite, setIsFavorite] = useState(false);
 
+    // Fetach Favorite artwork list
     const fetchFavArtworks = async (userId) => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks`);
@@ -25,7 +26,7 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
         }
     };
 
-    // fetch fav artworks
+    // Fetch fav artworks
     // Call this function in a useEffect or on a button click
     useEffect(() => {
         if (userId) {
@@ -33,17 +34,18 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
         }
     }, [userId]);
 
+    // Check does it already in fav_artworks
     const checkIsFavorite = useCallback(() => {
         console.log("favoriteArtworks:", favoriteArtworks);
-        console.log("아이디", objectId);
+        console.log("ID", objectId);
 
         const isFound = favoriteArtworks.some((item) => item.object_id === String(objectId));
     
         if (isFound) {
-            console.log(`ID ${objectId}가 배열에 존재합니다.`);
+            console.log(`ID ${objectId} is existing in the array.`);
             setIsFavorite(true);
         } else {
-            console.log(`ID ${objectId}가 배열에 없습니다.`);
+            console.log(`ID ${objectId} isn't exisitng in the array.`);
             setIsFavorite(false);
         }
     }, [favoriteArtworks, objectId]);
@@ -59,6 +61,7 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
         console.log(`isFavorite updated: ${isFavorite}`);
     }, [isFavorite]);
 
+    // Toggle, link / unlike
     const toggleFavoriteArtwork = async () => {
         if(isFavorite) {
             removeArtwork();
@@ -66,6 +69,8 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
             saveArtwork();
         }
     }
+
+    // Remove the artwork from the list
     const removeArtwork = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks/${objectId}`, {
@@ -84,6 +89,7 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
         }
     };
 
+    // Save the artwork in the list
     const saveArtwork = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks`, {
@@ -112,6 +118,7 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
         }
     };
 
+    // Get Object data to show the information
     useEffect(() => {
         setPhoto(objectUrl);
         setTitle(objectName);
@@ -129,7 +136,7 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
     };
 
     return (
-        <div className="savedBox">
+        <div className="recommendBox">
             <img 
                 src={isFavorite ? '/img/heart-filled.svg' : '/img/heart.svg'}
                 alt="button" 
@@ -138,13 +145,13 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
                     toggleFavoriteArtwork(); // Call the saveArtwork function
                 }} 
             />
-            <div><img src={photo} alt={title} className="saved_imgBox"></img></div>
-            <div className="saved_infoBox">
-                <div className="saved_title">{truncateText(title, 50)}</div>
-                <div className="saved_description">{description}</div>
+            <div><img src={photo} alt={title} className="recommend_imgBox"></img></div>
+            <div className="recommend_infoBox">
+                <div className="recommend_title">{truncateText(title, 50)}</div>
+                <div className="recommend_description">{description}</div>
             </div>
         </div>
     );
 }
 
-export default SavedCard;
+export default RecommendCard;

@@ -102,6 +102,7 @@ api.get('/users/emojis/:emoji/fav-artworks', mongoReady, async (req, res) => {
   }
 });
 
+// https://chatgpt.com/share/673ff691-6a74-8011-9aa3-1acd7381fd05
 // Get the most saved emojis (ENDPOINT)
 api.get('/users/aggregate/most-saved-emojis', mongoReady, async (req, res) => {
   try {
@@ -143,6 +144,7 @@ api.post('/users/get-id', async (req, res) => {
 });
 
 // UPDATA (EDIT) USERS' FAV ARTWORKS
+// https://chatgpt.com/share/673ff681-12a0-8011-ad19-149061f4c85e
 api.patch('/users/:id/fav-artworks', mongoReady, async (req, res) => {
   try {
     const { id } = req.params;
@@ -176,6 +178,7 @@ api.patch('/users/:id/fav-artworks', mongoReady, async (req, res) => {
 })
 
 // DELETE FAVORITE
+// https://chatgpt.com/share/673ff681-12a0-8011-ad19-149061f4c85e
 api.delete('/users/:id/fav-artworks/:objectId', mongoReady, async (req, res) => {
   try {
       const { id, objectId } = req.params;

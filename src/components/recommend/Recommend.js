@@ -14,10 +14,12 @@ function Recommend({ userId }) {
     const [currentPageForMost, setCurrentPageForMost] = useState(1); // Pagination for favoriteArtworksByMost
     const itemsPerPage = 5; // Number of items per page for both lists
 
+    // on and off Menu.js
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    // Fecth user info to get the emoji
     const fetchUserInfo = async (userId) => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}`);
@@ -107,11 +109,10 @@ function Recommend({ userId }) {
         fetchData();
         fetchMostData();
     }, [userId]);
-    
-    
-    console.log("userId is: " + userId);
+
 
     // Pagination Logic for favoriteArtworks
+    // https://chatgpt.com/share/673ff681-12a0-8011-ad19-149061f4c85e
     const totalPagesForFavorites = Math.ceil(favoriteArtworks.length / itemsPerPage);
     const paginatedFavorites = favoriteArtworks.slice(
         (currentPageForFavorites - 1) * itemsPerPage,

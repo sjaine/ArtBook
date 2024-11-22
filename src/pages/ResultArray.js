@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Nav from '../Nav.js';
-import Menu from '../Menu.js';
+import Nav from '../components/Nav.js';
+import Menu from '../components/Menu.js';
 
 function ResultArray({ value, navId, userId }) {
     const [objectsData, setObjectsData] = useState([]);
@@ -15,10 +15,14 @@ function ResultArray({ value, navId, userId }) {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    // on and off Menu.js
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    // Fetch favorite artwork list 
+    // https://chatgpt.com/share/673ff681-12a0-8011-ad19-149061f4c85e
+    // https://chatgpt.com/share/673ff65e-efc4-8011-bd70-3d2d6b331824
     const fetchFavArtworks = async (userId) => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks`);
@@ -37,7 +41,7 @@ function ResultArray({ value, navId, userId }) {
         }
     };
 
-    // fetch fav artworks
+    // Fetch fav artworks
     // Call this function in a useEffect or on a button click
     useEffect(() => {
         if (userId) {
@@ -46,6 +50,7 @@ function ResultArray({ value, navId, userId }) {
     }, [userId]);
 
 
+    // Check does it already exist in the array
     const checkIsFavorite = (id) => {
         console.log("favoriteArtworks:", favoriteArtworks);
         console.log("ID", id);
@@ -65,6 +70,7 @@ function ResultArray({ value, navId, userId }) {
         console.log(`isFavorite updated: ${isFavorite}`);
     }, [isFavorite]);
 
+    // Toggle, like / unlike
     const toggleFavoriteArtwork = async (artwork) => {
         if(isFavorite) {
             removeArtwork(artwork.objectID);
@@ -72,6 +78,8 @@ function ResultArray({ value, navId, userId }) {
             saveArtwork(artwork);
         }
     }
+
+    // Remove artwork from the list
     const removeArtwork = async (artwork) => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks/${artwork}`, {
@@ -90,6 +98,7 @@ function ResultArray({ value, navId, userId }) {
         }
     };
 
+    // Save artwork to the list
     const saveArtwork = async (artwork) => {
         console.log(artwork);
         try {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function SignInPage1({ formData, setFormData, nextStep }) {
+function SignUpPage1({ formData, setFormData, nextStep }) {
     const [emoji, setEmoji] = useState("🙂");
     const navigate = useNavigate(); 
 
@@ -86,6 +86,6 @@ function SignInPage1({ formData, setFormData, nextStep }) {
     );
 }
 
-export default SignInPage1;
+export default SignUpPage1;
 
 

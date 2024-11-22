@@ -1,4 +1,4 @@
-import ResultArray from './ResultArray';
+import ResultArray from '../../pages/ResultArray';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 

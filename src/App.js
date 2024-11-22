@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CardArray from './CardArray';
-import ArtStyle from './categories/ArtStyle';
-import Department from './categories/Department';
-import Medium from './categories/Medium';
-import Category from './Category';
-import Period from './categories/Period';
-import SignUp from './signInForm/SignInForm';
-import Saved from './saved/Saved';
-import Recommend from './recommend/Recommend';
-import Profile from './account/Account';
-import SignIn from './SignIn';
-import First from './First';
+import CardArray from './pages/CardArray';
+import ArtStyle from './components/categories/ArtStyle';
+import Department from './components/categories/Department';
+import Medium from './components/categories/Medium';
+import Category from './pages/Category';
+import Period from './components/categories/Period';
+import SignUp from './components/signUpForm/SignUpForm';
+import Saved from './components/saved/Saved';
+import Recommend from './components/recommend/Recommend';
+import Profile from './pages/Account';
+import SignIn from './pages/SignIn';
+import First from './pages/First';
 
 function App() {
     const [userId, setUserId] = useState(() => {

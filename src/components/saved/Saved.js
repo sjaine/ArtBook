@@ -12,6 +12,7 @@ function Saved({ userId }) {
 
     const navigate = useNavigate();
 
+    // on and off Menu.js
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -42,6 +43,7 @@ function Saved({ userId }) {
     }, [userId]);
 
     // Pagination Logic
+    // https://chatgpt.com/share/673ff681-12a0-8011-ad19-149061f4c85e
     const totalPages = Math.ceil(favoriteArtworks.length / itemsPerPage);
     const paginatedArtworks = favoriteArtworks.slice(
         (currentPage - 1) * itemsPerPage,

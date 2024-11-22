@@ -1,8 +1,8 @@
-import ResultArray from './ResultArray';
+import ResultArray from '../../pages/ResultArray';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-function Period({ userId }) {
+function Result({ userId }) {
     // https://reactrouter.com/en/main/hooks/use-search-params
     // https://developer.mozilla.org/en-US/docs/Web/API/Location/search
     // Utilize useSearchParams from React Router DOM as the search parameter for the API
@@ -36,8 +36,8 @@ function Period({ userId }) {
         }, [idParam, categoryParam]);
         
     return (
-        <ResultArray value={artworkData} navName="period" navId={navId} userId={userId} />
+        <ResultArray value={artworkData} navName="department" navId={navId} userId={userId} />
     );
 }
 
-export default Period;
+export default Result;
