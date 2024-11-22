@@ -11,10 +11,10 @@ Collaborating closely with my colleague, a UI/UX designer, provided me with valu
 - Fetch data from the MET API
 - Display similar artworks based on four different categories
 - Show detailed information about each artwork through search endpoints
-- (In progress) Add a feature to let users favorite artworks (MongoDB)
-- (In progress) Show other users' favorite artworks depends on user's emoji choice
+- Add a feature to let users favorite artworks (MongoDB)
+- Show other users' favorite artworks depends on user's emoji choice
 
 ## Built with
 - React
 - MET API
-- (In progress) MongoDB
+- MongoDB
