@@ -48,15 +48,15 @@ function ResultArray({ value, navId, userId }) {
 
     const checkIsFavorite = (id) => {
         console.log("favoriteArtworks:", favoriteArtworks);
-        console.log("아이디", id);
+        console.log("ID", id);
 
         const isFound = favoriteArtworks.some((item) => item.object_id === String(id));
     
         if (isFound) {
-            console.log(`ID ${id}가 배열에 존재합니다.`);
+            console.log(`ID ${id} is existing in the array.`);
             setIsFavorite(true);
         } else {
-            console.log(`ID ${id}가 배열에 없습니다.`);
+            console.log(`ID ${id} isn't existing in the array.`);
             setIsFavorite(false);
         }
     }
