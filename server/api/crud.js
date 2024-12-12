@@ -252,7 +252,8 @@ api.delete('/users/:id', mongoReady, async (req, res) => {
   }
 })
 
-
+// How to order top 3 departments
+// https://chatgpt.com/share/675b0f85-604c-8011-88ec-e720af80e328
 api.get('/users/:id/fav-artworks-department', mongoReady, async (req, res) => {  
   try {
     const { id } = req.params;

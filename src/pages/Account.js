@@ -59,6 +59,8 @@ function Saved({ userId }) {
         }, 2000);
     };
 
+    // How to order top 3 departments
+    // https://chatgpt.com/share/675b0f85-604c-8011-88ec-e720af80e328
     // Get fav_artwork_department
     const getDepartment = async (userId) => {
         try {
@@ -66,7 +68,7 @@ function Saved({ userId }) {
             if (!response.ok) throw new Error('Failed to load favorite artworks');
         
             const top3Departments = await response.json();
-            
+
             if(top3Departments.length >= 3) {
                 setFavoriteDepartments(top3Departments);
                 setIsExistingDepartment(true);

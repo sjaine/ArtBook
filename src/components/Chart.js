@@ -5,12 +5,14 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement } from "chart.
 // Register necessary components
 ChartJS.register(CategoryScale, LinearScale, BarElement);
 
+// Overall optimization, Custom Plugin Template, Wrap Text, Debugging
+// https://chatgpt.com/share/675b0f72-b190-8011-8a58-152fc3967046
+// https://chatgpt.com/share/675b0ebe-30cc-8011-9ee3-542874cee78c
 function Chart({ value }) {
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
     if (value && value.length > 0) {
-      // `value`가 업데이트되었을 때만 `setDepartments` 호출
       setDepartments([
         {
           id: 1,
@@ -35,10 +37,9 @@ function Chart({ value }) {
         },
       ]);
     }
-  }, [value]); // `value`가 변경될 때마다 실행
+  }, [value]); 
 
   if (departments.length === 0) {
-    // 데이터가 로드되지 않았을 때 로딩 메시지
     return <div>Loading...</div>;
   }
 
@@ -149,7 +150,6 @@ function Chart({ value }) {
           ctx.fillText(dept.id, x, y + 15); // Draw rank number inside the circle
         };
 
-       // 텍스트 줄바꿈 처리
         const wrapText = (text, maxWidth) => {
           const words = text.split(" ");
           let currentLine = words[0];
@@ -170,24 +170,21 @@ function Chart({ value }) {
           return lines;
         };
 
-        const maxWidthSingleLine = 120; // 한 줄 유지할 최대 너비
-        const maxWidthMultiLine = 90; // 줄바꿈 시 최대 너비
-        const lineHeight = 12; // 줄 간격
+        const maxWidthSingleLine = 120; 
+        const maxWidthMultiLine = 90; 
+        const lineHeight = 12; 
 
-        // 텍스트 줄바꿈 여부 결정
         let textLines = [];
         if (ctx.measureText(dept.name).width <= maxWidthSingleLine) {
-          // 한 줄로 표현 가능할 경우
           textLines = [dept.name];
         } else {
-          // 줄바꿈 처리
           textLines = wrapText(dept.name, maxWidthMultiLine);
         }
 
         ctx.fillStyle = "#333";
         ctx.font = "bold 10px Archivo";
         textLines.forEach((line, i) => {
-          ctx.fillText(line, x, y + 40 + i * lineHeight); // 한 줄씩 그리기
+          ctx.fillText(line, x, y + 40 + i * lineHeight);
         });
 
         ctx.fillStyle = "#666";
