@@ -15,8 +15,6 @@ function CardArray({ userId }) {
 
     const objectIds = [51170, 466105, 450748, 503651, 78190, 202996, 437658, 459246, 544442, 469858, 10464, 257875]; 
     
-    console.log("userId is: " + userId);
-
     return (
         <div>
             <Nav onMenuToggle={toggleMenu} />

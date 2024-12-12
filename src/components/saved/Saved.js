@@ -33,7 +33,6 @@ function Saved({ userId }) {
             }
     
             const favArtworks = await response.json();
-            console.log('Favorite Artworks:', favArtworks);
 
             // Update your state or display the data
             setFavoriteArtworks(favArtworks);
@@ -53,9 +52,6 @@ function Saved({ userId }) {
 
     // Check does it already exist in the array
     const checkIsFavorite = (id) => {
-        console.log("favoriteArtworks:", favoriteArtworks);
-        console.log("ID", id);
-
         const isFound = favoriteArtworks.some((item) => item.object_id === String(id));
     
         if (isFound) {
@@ -101,7 +97,6 @@ function Saved({ userId }) {
 
     // Save artwork to the list
     const saveArtwork = async (artwork) => {
-        console.log(artwork);
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks`, {
                 method: 'PATCH',

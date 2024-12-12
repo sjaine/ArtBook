@@ -24,7 +24,6 @@ function SignUpPage3({ formData, submitForm, setUserId }) {
             console.log(data);
 
             if (response.ok) {
-                // console.log("Navigating to /list with userId:", data._id);
                 setUserId(data._id);
                 // navigate("/list", { state: { userId: data._id } });
                 navigate("/list");

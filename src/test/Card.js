@@ -48,8 +48,6 @@ function Card() {
     const handleClick = () => {
         navigate(`/category?id=${idParam}`);
     };
-
-    console.log(title)
     
     return(
         <div className="cardBox" onClick={handleClick}>

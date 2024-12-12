@@ -7,8 +7,6 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
     const [favoriteArtworks, setFavoriteArtworks] = useState([]);
     const [isFavorite, setIsFavorite] = useState(false);
 
-    console.log("bobjectYear", objectYear); 
-
     // Fetach Favorite artwork list
     const fetchFavArtworks = async (userId) => {
         try {
@@ -19,7 +17,6 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
             }
     
             const favArtworks = await response.json();
-            console.log('Favorite Artworks:', favArtworks);
 
             // Update your state or display the data
             setFavoriteArtworks(favArtworks);
@@ -38,9 +35,6 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
 
     // Check does it already in fav_artworks
     const checkIsFavorite = useCallback(() => {
-        console.log("favoriteArtworks:", favoriteArtworks);
-        console.log("ID", objectId);
-
         const isFound = favoriteArtworks.some((item) => item.object_id === String(objectId));
     
         if (isFound) {

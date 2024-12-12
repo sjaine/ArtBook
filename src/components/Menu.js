@@ -7,8 +7,6 @@ function Menu({ userId, onMenuToggle }) {
 
     const navigate = useNavigate();
 
-    console.log("userID in menu: " + userId);
-
     // Get userID from the React Router and load user Data
     useEffect(() => {
         const getUsers = async () => {

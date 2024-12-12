@@ -6,8 +6,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement } from "chart.
 ChartJS.register(CategoryScale, LinearScale, BarElement);
 
 function Chart({ value }) {
-  console.log("valuesdf", value);
-
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {

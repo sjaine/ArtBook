@@ -33,7 +33,6 @@ function Recommend({ userId }) {
             }
     
             const userInfo = await response.json();
-            console.log('User Information Emoji:', userInfo.emojis);
             return userInfo.emojis;
         } catch (error) {
             console.error('Error fetching favorite artworks:', error);
@@ -49,7 +48,6 @@ function Recommend({ userId }) {
                 throw new Error('Failed to fetch favorite artworks');
             }
             const favArtworks = await response.json();
-            console.log('Favorite Artworks:', favArtworks);
             setFavoriteArtworks(favArtworks); // Update state
         } catch (error) {
             console.error('Error fetching favorite artworks by emoji:', error);
@@ -66,7 +64,6 @@ function Recommend({ userId }) {
             }
 
             const mostSavedEmoji = await response.json();
-            console.log(mostSavedEmoji[0]._id);
             return mostSavedEmoji[0]._id;
         } catch (error) {
             console.error(error);
@@ -82,7 +79,6 @@ function Recommend({ userId }) {
                 throw new Error('Failed to fetch favorite artworks');
             }
             const favArtworks = await response.json();
-            console.log('Favorite Artworks by most Saved:', favArtworks);
             setFavoriteArtworksByMost(favArtworks); // Update state
         } catch (error) {
             console.error('Error fetching favorite artworks by emoji:', error);
@@ -126,7 +122,6 @@ function Recommend({ userId }) {
             }
     
             const favArtworks = await response.json();
-            console.log('Favorite Artworks:', favArtworks);
 
             // Update your state or display the data
             setFavoriteArtworks(favArtworks);
@@ -145,9 +140,6 @@ function Recommend({ userId }) {
 
      // Check does it already exist in the array
      const checkIsFavorite = (id) => {
-        console.log("favoriteArtworks:", favoriteArtworks);
-        console.log("ID", id);
-
         const isFound = favoriteArtworks.some((item) => item.object_id === String(id));
     
         if (isFound) {
@@ -193,7 +185,6 @@ function Recommend({ userId }) {
 
     // Save artwork to the list
     const saveArtwork = async (artwork) => {
-        console.log(artwork);
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks`, {
                 method: 'PATCH',
@@ -232,8 +223,7 @@ function Recommend({ userId }) {
     // Show a popover when the user clicks each table
     const popupCardInfo = async (url) => {
         checkIsFavorite(url);
-        console.log("url", url);
-
+        
         const data = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${url}`)
         const selectedObject = await data.json()
     

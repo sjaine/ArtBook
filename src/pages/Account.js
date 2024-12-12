@@ -66,10 +66,7 @@ function Saved({ userId }) {
             if (!response.ok) throw new Error('Failed to load favorite artworks');
         
             const top3Departments = await response.json();
-
-            console.log("top3", top3Departments.length);
-            console.log("first name", top3Departments[0].name);
-
+            
             if(top3Departments.length >= 3) {
                 setFavoriteDepartments(top3Departments);
                 setIsExistingDepartment(true);

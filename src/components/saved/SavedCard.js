@@ -17,7 +17,6 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
             }
     
             const favArtworks = await response.json();
-            console.log('Favorite Artworks:', favArtworks);
 
             // Update your state or display the data
             setFavoriteArtworks(favArtworks);
@@ -36,9 +35,6 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
 
     // Check does it already in the list
     const checkIsFavorite = useCallback(() => {
-        console.log("favoriteArtworks:", favoriteArtworks);
-        console.log("ID", objectId);
-
         const isFound = favoriteArtworks.some((item) => item.object_id === String(objectId));
     
         if (isFound) {
