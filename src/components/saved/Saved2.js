@@ -140,6 +140,7 @@ function Saved({ userId }) {
     // Show a popover when the user clicks each table
     const popupCardInfo = async (url) => {
         checkIsFavorite(url);
+        console.log("url", url);
 
         const data = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${url}`)
         const selectedObject = await data.json()
@@ -214,7 +215,7 @@ function Saved({ userId }) {
                     <div className="cardInfo">
                         <div>
                             <div className="cardTitle">{truncateText(selectedObject.title, 60)}</div>
-                            <div className="cardArtist">{selectedObject.artistDisplayName || 'Unknown'}, {selectedObject.objectDate}</div>
+                            <div className="cardArtist">{selectedObject.artistDisplayName || 'Unknown'}</div>
                         </div>
                         <div>
                             <div className="cardTable">
@@ -278,7 +279,7 @@ function Saved({ userId }) {
                                 objectName={artwork.object_name}
                                 objectUrl={artwork.object_url} 
                                 objectArtistName={artwork.object_artistName} 
-                                objectYear={artwork.object_year}
+                                objectyear={artwork.object_year}
                                 onClick={() => popupCardInfo(artwork.object_id)}  />
                         ))}
                     </div>

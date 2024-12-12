@@ -111,6 +111,7 @@ function ResultArray({ value, navId, userId }) {
                     object_url: artwork.primaryImageSmall,
                     object_artistName: artwork.artistDisplayName || 'Unknown',
                     object_year: artwork.objectDate || 'Unknown',
+                    object_department: artwork.department
                 }),
                 credentials: 'include',
             });
@@ -231,7 +232,7 @@ function ResultArray({ value, navId, userId }) {
                     <div className="cardInfo">
                         <div>
                             <div className="cardTitle">{truncateText(selectedObject.title, 60)}</div>
-                            <div className="cardArtist">{selectedObject.artistDisplayName || 'Unknown'}</div>
+                            <div className="cardArtist">{selectedObject.artistDisplayName || 'Unknown'}, {selectedObject.objectDate}</div>
                         </div>
                         <div>
                             <div className="cardTable">
@@ -255,8 +256,8 @@ function ResultArray({ value, navId, userId }) {
                                 <div>{selectedObject.classification || 'Unknown'}</div>
                             </div>
                             <div className="cardTable">
-                                <div>Accession Number</div>
-                                <div>{selectedObject.accessionNumber || 'Unknown'}</div>
+                                <div>Department</div>
+                                <div>{selectedObject.department || 'Not on view'}</div>
                             </div>
                         </div>
                         <a href="https://maps.metmuseum.org/?lang=en-GB#17/40.779448/-73.963517/-61/" className="cardButton">
@@ -270,10 +271,13 @@ function ResultArray({ value, navId, userId }) {
                 )}
             </div>
             <div className="wrapper">
-                {/* https://njirumwai.hashnode.dev/react-router-6-go-back-how-to-go-back-using-react-router-v6 */}
-                <div className="previousResult" onClick={() => navigate(-1)}>
-                    <img src="img/leftArrow.svg" alt="previous arrow" className="previousImg" />
-                    <div className="previousText">Back</div>
+                <div className="profile_nav result">
+                    {/* https://njirumwai.hashnode.dev/react-router-6-go-back-how-to-go-back-using-react-router-v6 */}
+                    <div className="previousResult" onClick={() => navigate(-1)}>
+                        <img src="img/leftArrow.svg" alt="previous arrow" className="previousImg" />
+                        <div className="previousBtnText2">Back</div>
+                    </div>
+                    <div className="profile_title title_result">Classification</div>
                 </div>
                 <div className="object_Table">
                     <table>

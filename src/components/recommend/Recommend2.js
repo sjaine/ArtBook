@@ -1,25 +1,118 @@
 import { useEffect, useState } from 'react';
 import Nav from '../Nav.js';
 import Menu from '../Menu.js';
-import SavedCard from './SavedCard.js';
-import { useNavigate } from 'react-router-dom';
+import RecommendCard from './RecommendCard.js';
 
-function Saved({ userId }) {
+function Recommend({ userId }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [userEmoji, setUserEmoji] = useState('');
+    const [mostEmoji, setMostEmoji] = useState('');
     const [favoriteArtworks, setFavoriteArtworks] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1); // Pagination: Current page
-    const itemsPerPage = 10; // Number of items per page
+    const [favoriteArtworksByMost, setFavoriteArtworksByMost] = useState([]);
+    
+    const [currentPageForFavorites, setCurrentPageForFavorites] = useState(1); // Pagination for favoriteArtworks
+    const [currentPageForMost, setCurrentPageForMost] = useState(1); // Pagination for favoriteArtworksByMost
+    const itemsPerPage = 5; // Number of items per page for both lists
 
     const [selectedObject, setSelectedObject] = useState(null); 
     const [isCardVisible, setIsCardVisible] = useState(false); 
     const [isFavorite, setIsFavorite] = useState(false);
 
-    const navigate = useNavigate();
-
     // on and off Menu.js
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    // Fecth user info to get the emoji
+    const fetchUserInfo = async (userId) => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}`);
+    
+            if (!response.ok) {
+                throw new Error('Failed to load favorite artworks');
+            }
+    
+            const userInfo = await response.json();
+            console.log('User Information Emoji:', userInfo.emojis);
+            return userInfo.emojis;
+        } catch (error) {
+            console.error('Error fetching favorite artworks:', error);
+            return null;
+        }
+    };
+
+    // Fetch favorite artworks by emoji
+    const fetchFavArtworksByEmoji = async (emoji) => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/emojis/${emoji}/fav-artworks`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch favorite artworks');
+            }
+            const favArtworks = await response.json();
+            console.log('Favorite Artworks:', favArtworks);
+            setFavoriteArtworks(favArtworks); // Update state
+        } catch (error) {
+            console.error('Error fetching favorite artworks by emoji:', error);
+        }
+    };
+
+    // Get the most saved emoji
+    const getMostSavedEmoji = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/aggregate/most-saved-emojis`);
+
+            if(!response.ok) {
+                throw new Error('Failed to fetch favorite artworks');
+            }
+
+            const mostSavedEmoji = await response.json();
+            console.log(mostSavedEmoji[0]._id);
+            return mostSavedEmoji[0]._id;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    // Fetch favorite artworks by most saved emoji
+    const fetchFavArtworksByMostSavedEmoji = async (mostEmoji) => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/emojis/${mostEmoji}/fav-artworks`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch favorite artworks');
+            }
+            const favArtworks = await response.json();
+            console.log('Favorite Artworks by most Saved:', favArtworks);
+            setFavoriteArtworksByMost(favArtworks); // Update state
+        } catch (error) {
+            console.error('Error fetching favorite artworks by emoji:', error);
+        }
+    };
+    
+    // Call this function in a useEffect or on a button click
+    useEffect(() => {
+        const fetchData = async () => {
+            if (userId) {
+                const emoji = await fetchUserInfo(userId);
+                if (emoji) {
+                    setUserEmoji(emoji);
+                    await fetchFavArtworksByEmoji(emoji);
+                }
+            }
+        };
+
+        const fetchMostData = async () => {
+            if (userId) {
+                const mostEmoji = await getMostSavedEmoji();
+                if (mostEmoji) {
+                    setMostEmoji(mostEmoji);
+                    await fetchFavArtworksByMostSavedEmoji(mostEmoji);
+                }
+            }
+        };
+        fetchData();
+        fetchMostData();
+    }, [userId]);
 
     // Fetch favorite artwork list 
     // https://chatgpt.com/share/673ff681-12a0-8011-ad19-149061f4c85e
@@ -50,9 +143,8 @@ function Saved({ userId }) {
         }
     }, [userId]);
 
-
-    // Check does it already exist in the array
-    const checkIsFavorite = (id) => {
+     // Check does it already exist in the array
+     const checkIsFavorite = (id) => {
         console.log("favoriteArtworks:", favoriteArtworks);
         console.log("ID", id);
 
@@ -157,31 +249,44 @@ function Saved({ userId }) {
 
         window.removeEventListener('click', closeCardOnBackgroundClick);
     };
-    
-    // Call this function in a useEffect or on a button click
-    useEffect(() => {
-        if (userId) {
-            fetchFavArtworks(userId);
-        }
-    }, [userId]);
 
-    // Pagination Logic
+
+    // Pagination Logic for favoriteArtworks
     // https://chatgpt.com/share/673ff681-12a0-8011-ad19-149061f4c85e
-    const totalPages = Math.ceil(favoriteArtworks.length / itemsPerPage);
-    const paginatedArtworks = favoriteArtworks.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
+    const totalPagesForFavorites = Math.ceil(favoriteArtworks.length / itemsPerPage);
+    const paginatedFavorites = favoriteArtworks.slice(
+        (currentPageForFavorites - 1) * itemsPerPage,
+        currentPageForFavorites * itemsPerPage
     );
 
-    const goToNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+    const goToNextPageForFavorites = () => {
+        if (currentPageForFavorites < totalPagesForFavorites) {
+            setCurrentPageForFavorites(currentPageForFavorites + 1);
         }
     };
 
-    const goToPreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+    const goToPreviousPageForFavorites = () => {
+        if (currentPageForFavorites > 1) {
+            setCurrentPageForFavorites(currentPageForFavorites - 1);
+        }
+    };
+
+    // Pagination Logic for favoriteArtworksByMost
+    const totalPagesForMost = Math.ceil(favoriteArtworksByMost.length / itemsPerPage);
+    const paginatedMostFavorites = favoriteArtworksByMost.slice(
+        (currentPageForMost - 1) * itemsPerPage,
+        currentPageForMost * itemsPerPage
+    );
+
+    const goToNextPageForMost = () => {
+        if (currentPageForMost < totalPagesForMost) {
+            setCurrentPageForMost(currentPageForMost + 1);
+        }
+    };
+
+    const goToPreviousPageForMost = () => {
+        if (currentPageForMost > 1) {
+            setCurrentPageForMost(currentPageForMost - 1);
         }
     };
     
@@ -214,7 +319,7 @@ function Saved({ userId }) {
                     <div className="cardInfo">
                         <div>
                             <div className="cardTitle">{truncateText(selectedObject.title, 60)}</div>
-                            <div className="cardArtist">{selectedObject.artistDisplayName || 'Unknown'}, {selectedObject.objectDate}</div>
+                            <div className="cardArtist">{selectedObject.artistDisplayName || 'Unknown'}</div>
                         </div>
                         <div>
                             <div className="cardTable">
@@ -253,60 +358,67 @@ function Saved({ userId }) {
                 )}
             </div>
             
-            <div className="saved-wrapper">
-                <div className="saved-header">
-                    <div>Home / Saved</div>
-                    <div>Here are <span>artworks</span> that caught your eye ✨</div>
-                    <div>{favoriteArtworks.length} saved</div>
+            <div className="recommend-wrapper">
+                <div className="recommend-header">
+                    <div>Home / Recommend</div>
+                    <div>Here are some recommended <span>artworks</span> just for you 👍</div>
                 </div>
 
-                {favoriteArtworks.length === 0 ? (
-                    <div className="saved-none">
-                        <div>🧐</div>
-                        <div>You don’t have any saved artworks yet.</div>
-                        <div>To start building your personal collection, <br />
-                        explore artworks on the Home page or check out the Recommend page!</div>
-                        <button className="home_btn form_btn" onClick={() => navigate("/list")}>Go to Home page</button>
+                <div className="recommend-lists">
+                    <div className="recommend-emoji">From others who chose the <span>same</span> emoji({userEmoji}) as you...</div>
+                    <div className="recommend-recommend">
+                        <div className="recommend-list">
+                            {paginatedFavorites.map((artwork, index) => (
+                                <RecommendCard 
+                                    key={index}
+                                    userId={userId}
+                                    objectId={artwork.object_id}
+                                    objectName={artwork.object_name}
+                                    objectUrl={artwork.object_url}
+                                    objectArtistName={artwork.object_artistName}
+                                    objectYear={artwork.object_year}
+                                    onClick={() => popupCardInfo(artwork.object_id)}
+                                />
+                            ))}
+                        </div>
+                        <div className="recommend-pagination">
+                            <button onClick={goToPreviousPageForFavorites} disabled={currentPageForFavorites === 1} className="recommend-left">
+                                <img src="img/arrowWhite.svg" alt="left arrow" />
+                            </button>
+                            <button onClick={goToNextPageForFavorites} disabled={currentPageForFavorites === totalPagesForFavorites} className="recommend-right">
+                                <img src="img/arrowWhite.svg" alt="right arrow" />
+                            </button>
+                        </div>
                     </div>
-                ) : (
-                    <div className="saved-list">
-                        {paginatedArtworks.map((artwork, index) => (
-                            <SavedCard 
-                                key={index} 
+
+                    <div className="recommend-emoji">From others who picked this <span>popular</span> emoji({mostEmoji})...</div>
+                    <div className="recommend-recommend">
+                        <div className="recommend-list">
+                            {paginatedMostFavorites.map((artwork, index) => (
+                            <RecommendCard 
+                                key={index}
                                 userId={userId}
                                 objectId={artwork.object_id}
                                 objectName={artwork.object_name}
-                                objectUrl={artwork.object_url} 
-                                objectArtistName={artwork.object_artistName} 
+                                objectUrl={artwork.object_url}
+                                objectArtistName={artwork.object_artistName}
                                 objectYear={artwork.object_year}
-                                onClick={() => popupCardInfo(artwork.object_id)}  />
-                        ))}
+                            />
+                            ))}
+                        </div>
+                        <div className="recommend-pagination">
+                            <button onClick={goToPreviousPageForMost} disabled={currentPageForMost === 1} className="recommend-left">
+                                <img src="img/arrowWhite.svg" alt="left arrow" />
+                            </button>
+                            <button onClick={goToNextPageForMost} disabled={currentPageForMost === totalPagesForMost} className="recommend-right">
+                                <img src="img/arrowWhite.svg" alt="right arrow" />
+                            </button>
+                        </div>
                     </div>
-                )}
-
-                {favoriteArtworks.length > itemsPerPage && (
-                    <div className="pagination">
-                        <button 
-                            className="prevBtn form_btn" 
-                            onClick={goToPreviousPage} 
-                            disabled={currentPage === 1}
-                        >
-                            <img src="img/nextArrow.svg" alt="left arrow" /> Before 
-                        </button>
-                        <button 
-                            className="nextBtn form_btn" 
-                            onClick={goToNextPage} 
-                            disabled={currentPage === totalPages}
-                        >
-                            Next <img src="img/nextArrow.svg" alt="right arrow" />
-                        </button>
-                    </div>
-                )}
-
-                
+                </div>
             </div>
         </div>
     );
 }
 
-export default Saved;
+export default Recommend;

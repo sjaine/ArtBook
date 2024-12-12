@@ -59,6 +59,11 @@ nav > div:first-child > img {
   margin-right: 5px;
 }
 
+.menu_icons > img:last-child {
+  padding-left: 2px;
+  margin-top: 2px;
+}
+
 .menu_icons {
   display: flex;
   justify-content: flex-start;
@@ -266,6 +271,7 @@ nav > div:first-child > img {
   height: 250px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .recommendBox {
@@ -274,6 +280,7 @@ nav > div:first-child > img {
   height: 100%;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .imgBox {
@@ -325,6 +332,7 @@ nav > div:first-child > img {
 .description {
   font-weight: medium;
   font-size: 13px;
+  color: #666;
 }
 
 .saved_description, .recommend_description {
@@ -414,9 +422,10 @@ nav > div:first-child > img {
 
 .objectDescription {
   color: #FF594B;
-  font-family: "Archivo", sans-serif;
+  font-family: "Newsreader";
+  font-size: 18px;
   font-style: italic;
-  font-size: 20px;
+  font-weight: 700;
 }
 
 .objectTable {
@@ -517,16 +526,17 @@ nav > div:first-child > img {
   color: #000;
   font-family: Archivo;
   font-size: 30px;
-  font-style: italic;
   font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .cardArtist {
-  color: #000;
-  font-family: Archivo;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 400;
+  color: #FF594B;
+  font-family: "Newsreader";
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .cardTable {
@@ -536,7 +546,7 @@ nav > div:first-child > img {
 .cardTable > div:first-child {
   color: #FF594B;
   font-family: Archivo;
-  font-size: 21px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   margin-right: 20px;
@@ -545,7 +555,7 @@ nav > div:first-child > img {
 .cardTable > div:nth-child(2) {
   color: #000;
   font-family: Archivo;
-  font-size: 21px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
 }
@@ -573,11 +583,45 @@ nav > div:first-child > img {
   z-index: 5; 
 }
 
-.previous { 
+.profile_nav { 
   position: absolute;
-  display: flex;
   top: -60px;
-  left: 150px;
+  width: 100%;
+  padding: 0 150px;
+}
+
+.result {
+  top: 0;
+}
+
+.profile_title {
+  color: #000;
+  font-size: 28px;
+  font-weight: 600;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.title_result {
+  top: -35px;
+  font-size: 24px;
+}
+
+.profile_title > span {
+  color: #FF594B;
+  font-family: "Newsreader";
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.previous {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
   align-items: center;
   cursor: pointer;
 }
@@ -612,6 +656,23 @@ nav > div:first-child > img {
   color: #000;
   font-size: 25px;
   font-weight: 600;
+}
+
+.previousBtnText {
+  color: #CCC;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.previousBtnText2 {
+  color: #CCC;
+  text-align: center;
+  font-size: 23.502px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .previousText > span {
@@ -1149,7 +1210,8 @@ nav > div:first-child > img {
 }
 
 .profile-box > div:nth-child(2) > img {
-  height: 48.5%;
+  height: 49%;
+  margin-top: 5px;
 }
 
 .analystic {
@@ -1431,3 +1493,133 @@ nav > div:first-child > img {
   width: 100%;
 }
 
+/* Profile Bar chart */
+.bar {
+  height: 20%;
+  background-color: #FF594B;
+  border-radius: 20px 20px 0 0;
+  color: #F8F8F8;
+  font-family: Archivo;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.bar > img {
+  margin-right: 7px;
+}
+
+.profile_chartBox {
+  padding: 0 50px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 80%;
+  border: 3px #CCC solid;
+  border-radius: 0 0 20px 20px;
+  border-top: 0;
+}
+
+.profile_leftBox {
+  height: 49%;
+  margin-bottom: 5px;
+}
+
+.chart_component {
+  position: relative;
+  height: 100%;
+  width: 50%;
+  bottom: -4%;
+  z-index: -1;
+}
+
+.profile_topDepartment {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile_topDepartment > div:first-child {
+  color: #000;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 40px; /* 200% */
+}
+
+.profile_topDepartment > div:first-child > span {
+  color: #FF594B;
+  font-family: "Newsreader";
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 40px;
+}
+
+.profile_departmentBtn {
+  color: #FFF;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 50px;
+  border: 1px solid #FF594B;
+  background: #FF594B;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.chart-none {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.placeholder_chart {
+  position: absolute;
+  bottom: 0;
+  z-index: -2;
+}
+
+.chart_blur {
+  width: 100%;
+  height: 100%;
+  border-radius: 0px 0px 17px 17px;
+  background: rgba(255, 255, 255, 0.59);
+  backdrop-filter: blur(17.5px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.chart-none > div:first-child {
+  font-size: 60px;
+  margin-top: -10px;
+}
+
+.chart-none > div:nth-child(2) {
+  color: #000;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 16px;
+}
+
+.chart-none > div:nth-child(3) {
+  color: #666;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 30px; /* 187.5% */
+}

@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 
-function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistName, objectYear }) {
+function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistName, objectYear, onClick }) {
     const [photo, setPhoto] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [favoriteArtworks, setFavoriteArtworks] = useState([]);
     const [isFavorite, setIsFavorite] = useState(false);
+
+    console.log("bobjectYear", objectYear); 
 
     // Fetach Favorite artwork list
     const fetchFavArtworks = async (userId) => {
@@ -123,10 +125,10 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
         setPhoto(objectUrl);
         setTitle(objectName);
         if (objectArtistName !== "") {
-            setDescription(objectArtistName, objectYear);
+            setDescription(`${objectArtistName}, ${objectYear || "Unknown Year"}`);
         } else {
             // Display "Unknown" if the data does not exist
-            setDescription("Unknown", objectYear);
+            setDescription(`Unknown, ${objectYear || "Unknown Year"}`);
         }
     }, [objectId, objectName, objectUrl, objectArtistName, objectYear]);
 
@@ -136,19 +138,20 @@ function RecommendCard({ userId, objectId, objectName, objectUrl, objectArtistNa
     };
 
     return (
-        <div className="recommendBox">
+        <div className="recommendBox" onClick={onClick}>
             <img 
                 src={isFavorite ? '/img/heart-filled.svg' : '/img/heart.svg'}
                 alt="button" 
                 className="fav_button_card" 
-                onClick={() => {
-                    toggleFavoriteArtwork(); // Call the saveArtwork function
+                onClick={(e) => {
+                    e.stopPropagation(); 
+                    toggleFavoriteArtwork(); 
                 }} 
             />
             <div><img src={photo} alt={title} className="recommend_imgBox"></img></div>
             <div className="recommend_infoBox">
-                <div className="recommend_title">{truncateText(title, 50)}</div>
-                <div className="recommend_description">{description}</div>
+                <div className="recommend_title">{truncateText(title, 28)}</div>
+                <div className="recommend_description">{truncateText(description, 30)}</div>
             </div>
         </div>
     );

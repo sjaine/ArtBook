@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Nav from '../components/Nav.js';
 import Menu from '../components/Menu.js';
 import { useNavigate } from 'react-router-dom';
+import Chart from '../components/Chart.js';
 
 function Saved({ userId }) {
     const [userPhoto, setUserPhoto] = useState('');
@@ -15,6 +16,11 @@ function Saved({ userId }) {
         You will immediately lose your access to all your account and data.
     </>);
     const [isDeleteButtonsVisible, setIsDeleteButtonsVisible] = useState(true);
+
+    const [favoriteDepartments, setFavoriteDepartments] = useState([]);
+    const [firstDepartment, setFirstDepartment] = useState('');
+    
+    const [isExistingDepartment, setIsExistingDepartment] = useState(false);
 
     const navigate = useNavigate();
 
@@ -53,6 +59,38 @@ function Saved({ userId }) {
         }, 2000);
     };
 
+    // Get fav_artwork_department
+    const getDepartment = async (userId) => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/fav-artworks-department`);
+            if (!response.ok) throw new Error('Failed to load favorite artworks');
+        
+            const top3Departments = await response.json();
+
+            console.log("top3", top3Departments.length);
+            console.log("first name", top3Departments[0].name);
+
+            if(top3Departments.length >= 3) {
+                setFavoriteDepartments(top3Departments);
+                setIsExistingDepartment(true);
+
+                if(top3Departments[0].name === "Arts of Africa, Oceania, and the Americas") {
+                    setFirstDepartment("Arts of Africa");
+                } else if (top3Departments[0].name === "European Sculpture and Decorative Arts") {
+                    setFirstDepartment("European Sculpture");
+                } else {
+                    setFirstDepartment(top3Departments[0].name);
+                }
+            } else {
+                setIsExistingDepartment(false);
+            }
+          
+        } catch (error) {
+          console.error('Error fetching favorite artworks:', error);
+        }
+      };
+
+
     // User profile
     useEffect(() => {
         const getUsers = async () => {
@@ -68,6 +106,7 @@ function Saved({ userId }) {
         
         if (userId) {
             getUsers();
+            getDepartment(userId);
         }
     }, [userId]);
     
@@ -97,7 +136,32 @@ function Saved({ userId }) {
                     </div>
 
                     <div>
-                        <img className="analystic" src="img/analystic.svg" alt="analystic" />
+                        <div className="profile_leftBox">
+                            <div className="bar">
+                                <img src="/img/chart.svg" alt="analytics" />
+                                Analytics
+                            </div>
+                            {isExistingDepartment ? (
+                                <div className="profile_chartBox">
+                                    <Chart value={favoriteDepartments} userId={userId}  />
+                                    <div className="profile_topDepartment">
+                                        <div>Your <span>top</span> department is...</div>
+                                        <a className="profile_departmentBtn" href="https://www.metmuseum.org/about-the-met/collection-areas">{firstDepartment}</a>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="profile_chartBox chart-none">
+                                    <div>🧐</div>
+                                    <div>You don’t have enough saved artworks yet.</div>
+                                    <div>Want to discover your artistic taste? <br />
+                                    Save a few artworks you love, and we'll show you your top art style!</div>
+
+                                    <div className="chart_blur"></div>
+                                    <img className="placeholder_chart" src="/img/placeholder_chart.svg" alt="placeholder" />
+                                </div>
+                            )}
+                            
+                        </div>
                         <img src="img/mappie.svg" alt="mappie" />
                     </div>
 

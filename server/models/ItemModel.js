@@ -10,7 +10,8 @@ const favArtWorkSchema = new mongoose.Schema({
     "object_name": { type: String },
     "object_url": { type: String },
     "object_artistName": { type: String },
-    "object_year": { type: String }
+    "object_year": { type: String },
+    "object_department": { type: String }
 }, { _id: false });
 
 const schema = new mongoose.Schema({ 

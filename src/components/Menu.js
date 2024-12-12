@@ -47,6 +47,7 @@ function Menu({ userId, onMenuToggle }) {
                     <div className="menu_bottom">
                         <div className="menu_category">ACCOUNT</div>
                         <div className="menu_icons" onClick={() => navigate("/profile")}><img src="/img/profile_icon.svg" alt="profile" /> Profile</div>
+                        <div className="menu_icons" onClick={() => navigate("/")}><img src="/img/signout.svg" alt="Signout" /> Sign out</div>
                     </div>
                 </div>
             </div>

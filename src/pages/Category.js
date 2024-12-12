@@ -129,10 +129,15 @@ function Category({ userId }) {
             <Nav onMenuToggle={toggleMenu} />
             {isMenuOpen && <Menu userId={userId} onMenuToggle={toggleMenu}  />}
             <div className="wrapper">
-                {/* https://njirumwai.hashnode.dev/react-router-6-go-back-how-to-go-back-using-react-router-v6 */}
-                <div className="previous" onClick={() => navigate(-1)}>
-                    <img src="img/leftArrow.svg" alt="previous arrow" className="previousImg" />
-                    <div className="previousText">Back</div>
+                <div className="profile_nav">
+                    {/* https://njirumwai.hashnode.dev/react-router-6-go-back-how-to-go-back-using-react-router-v6 */}
+                    <div className="previous" onClick={() => navigate(-1)}>
+                        <img src="img/leftArrow.svg" alt="previous arrow" className="previousImg" />
+                        <div className="previousBtnText">Back</div>
+                    </div>
+                    <div className="profile_title">
+                        How would you like to <span>explore</span> your results? 🧐
+                    </div>
                 </div>
                 <div className="category_boxes">
                     <div className="category_CardBox">

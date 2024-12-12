@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, objectYear }) {
+function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, objectYear, onClick }) {
     const [photo, setPhoto] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -123,10 +123,10 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
         setPhoto(objectUrl);
         setTitle(objectName);
         if (objectArtistName !== "") {
-            setDescription(objectArtistName, objectYear);
+            setDescription(`${objectArtistName}, ${objectYear || "Unknown Year"}`);
         } else {
             // Display "Unknown" if the data does not exist
-            setDescription("Unknown", objectYear);
+            setDescription(`Unknown, ${objectYear || "Unknown Year"}`);
         }
     }, [objectId, objectName, objectUrl, objectArtistName, objectYear]);
 
@@ -136,19 +136,20 @@ function SavedCard({ userId, objectId, objectName, objectUrl, objectArtistName, 
     };
 
     return (
-        <div className="savedBox">
+        <div className="savedBox" onClick={onClick}>
             <img 
                 src={isFavorite ? '/img/heart-filled.svg' : '/img/heart.svg'}
                 alt="button" 
                 className="fav_button_card" 
-                onClick={() => {
-                    toggleFavoriteArtwork(); // Call the saveArtwork function
+                onClick={(e) => {
+                    e.stopPropagation(); 
+                    toggleFavoriteArtwork(); 
                 }} 
             />
             <div><img src={photo} alt={title} className="saved_imgBox"></img></div>
             <div className="saved_infoBox">
-                <div className="saved_title">{truncateText(title, 50)}</div>
-                <div className="saved_description">{description}</div>
+                <div className="saved_title">{truncateText(title, 28)}</div>
+                <div className="saved_description">{truncateText(description, 30)}</div>
             </div>
         </div>
     );

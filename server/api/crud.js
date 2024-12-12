@@ -148,7 +148,7 @@ api.post('/users/get-id', async (req, res) => {
 api.patch('/users/:id/fav-artworks', mongoReady, async (req, res) => {
   try {
     const { id } = req.params;
-    const { object_id, object_name, object_url, object_artistName, object_year } = req.body;
+    const { object_id, object_name, object_url, object_artistName, object_year, object_department } = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(
         id,
@@ -160,6 +160,7 @@ api.patch('/users/:id/fav-artworks', mongoReady, async (req, res) => {
                     object_url,
                     object_artistName,
                     object_year,
+                    object_department
                 },
             },
         },
@@ -250,6 +251,56 @@ api.delete('/users/:id', mongoReady, async (req, res) => {
     res.status(500).send(err) 
   }
 })
+
+
+api.get('/users/:id/fav-artworks-department', mongoReady, async (req, res) => {  
+  try {
+    const { id } = req.params;
+
+    // Validate the ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send({ message: 'Invalid user ID' });
+    }
+
+    // Find the user by ID and fetch only the fav_artworks field
+    const user = await User.findById(id).select('fav_artworks');
+
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    // Count occurrences and associate images
+    const departmentCounts = user.fav_artworks.reduce((acc, artwork) => {
+      const { object_department, object_url } = artwork;
+
+      if (!acc[object_department]) {
+        acc[object_department] = { count: 0, image: object_url };
+      }
+
+      acc[object_department].count++;
+      acc[object_department].image = object_url;
+
+      return acc;
+    }, {});
+
+    // Convert to array and sort by count
+    const sortedDepartments = Object.entries(departmentCounts)
+      .map(([name, { count, image }]) => ({ name, count, image }))
+      .sort((a, b) => b.count - a.count);
+
+    // Get top 3
+    const top3Departments = sortedDepartments.slice(0, 3);
+
+    res.send(top3Departments);
+  } catch (err) {
+    console.error('Error fetching favorite artworks:', err);
+    res.status(500).send({ message: 'Failed to fetch favorite artworks', error: err.message });
+  }
+});
+
+
+
+// BFF (Back end for Front end)
 
 
 export { api as crudEndpoints }
