@@ -13,8 +13,10 @@ Collaborating closely with my colleague, a UI/UX designer, provided me with valu
 - Show detailed information about each artwork through search endpoints
 - Add a feature to let users favorite artworks (MongoDB)
 - Show other users' favorite artworks depends on user's emoji choice
+- Show the analytics of user's fav artworks' departments 
 
 ## Built with
 - React
 - MET API
 - MongoDB
+- Chart.js
